@@ -1,0 +1,51 @@
+{
+  "name": "@plattar/plattar-analytics",
+  "version": "0.0.1",
+  "description": "Plattar Analytics for querying and writing analytics data",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "clean": "rm -rf build dist node_modules",
+    "build": "npm run clean && npm install && npm run build-ts && npm run build-es2019 && npm run build-es2015",
+    "build-ts": "tsc --noEmitOnError",
+    "build-es2019": "rm -rf build/es2019 && mkdir -p build/es2019 && browserify --standalone PlattarAnalytics dist/index.js -o build/es2019/plattar-analytics.js && uglifyjs build/es2019/plattar-analytics.js --output build/es2019/plattar-analytics.min.js",
+    "build-es2015": "rm -rf build/es2015 && mkdir -p build/es2015 && babel build/es2019/plattar-analytics.js --presets=@babel/env > build/es2015/plattar-analytics.js && uglifyjs build/es2015/plattar-analytics.js --output build/es2015/plattar-analytics.min.js",
+    "clean:build": "npm run clean && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Plattar/plattar-analytics.git"
+  },
+  "engines": {
+    "node": "^10.17 || >=12.3"
+  },
+  "keywords": [
+    "plattar",
+    "npm",
+    "ar",
+    "augmented",
+    "reality",
+    "augmentedreality",
+    "augmented-reality",
+    "web"
+  ],
+  "author": "plattar",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Plattar/plattar-analytics/issues"
+  },
+  "homepage": "https://www.plattar.com",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "browserify": "^17.0.0",
+    "typescript": "^4.3.5",
+    "uglify-es": "^3.3.9"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
