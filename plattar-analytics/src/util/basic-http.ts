@@ -6,9 +6,9 @@ export default class BasicHTTP {
         return new Promise<any>((accept, reject) => {
             try {
                 const http: XMLHttpRequest = new XMLHttpRequest();
+                http.open(protocol, path, true);
                 http.setRequestHeader("Content-Type", "application/json");
                 http.setRequestHeader("Accept", "application/json");
-                http.open(protocol, path, true);
 
                 http.onload = (e) => {
                     if (http.status === 200) {
