@@ -29,3 +29,28 @@ https://cdn.jsdelivr.net/npm/@plattar/plattar-analytics/build/es2019/plattar-ana
 ```console
 npm install @plattar/plattar-analytics
 ```
+
+### _Analytics Query Example_
+
+```js
+// create a new Analytics instance for a particular application
+const analytics = new PlattarAnalytics.Analytics("your-application-id");
+
+// default is production, can be production, staging or dev
+analytics.origin = "production";
+// default is track, can be track or pageview
+analytics.event = "track";
+// your analytics query
+const query = {
+  // create the analytics query JSON
+}
+
+// send the query
+analytics.query(query).then((results) => {
+  // do something with results. Results structure varies based on query
+  console.log(results);
+}).catch((err) => {
+  console.error(err);
+});
+
+```
