@@ -6,6 +6,8 @@ export default class BasicHTTP {
         return new Promise<any>((accept, reject) => {
             try {
                 const http: XMLHttpRequest = new XMLHttpRequest();
+                http.setRequestHeader("Content-Type", "application/json");
+                http.setRequestHeader("Accept", "application/json");
                 http.open(protocol, path, true);
 
                 http.onload = (e) => {
@@ -29,7 +31,7 @@ export default class BasicHTTP {
                     return reject(e);
                 };
 
-                http.send(data);
+                http.send(data ? JSON.stringify(data) : null);
             }
             catch (e) {
                 return reject(e);
