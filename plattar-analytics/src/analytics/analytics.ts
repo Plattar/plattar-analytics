@@ -4,12 +4,14 @@ import { AnalyticsData } from "./analytics-data";
 export class Analytics {
     private readonly _applicationID: string;
     private readonly _handlePageHide: () => void;
+    private readonly _data: AnalyticsData;
     private _pageTime: Date | null = null;
     public origin: "production" | "staging" | "dev" = "production";
     public event: "track" | "pageview" = "track";
 
     constructor(applicationID: string) {
         this._applicationID = applicationID;
+        this._data = new AnalyticsData();
 
         this._handlePageHide = () => {
             if (document.visibilityState === "hidden") {
@@ -19,13 +21,13 @@ export class Analytics {
                 const time2 = new Date();
                 const diff = time2.getTime() - this._pageTime.getTime();
 
-                const data: AnalyticsData = new AnalyticsData();
+                const data: AnalyticsData = this.data;
 
                 data.push("eventAction", "View Time");
                 data.push("viewTime", diff);
                 data.push("eventLabel", diff);
 
-                this.write(data);
+                this.write();
 
                 this._pageTime = null;
 
@@ -55,11 +57,9 @@ export class Analytics {
         });
     }
 
-    public write(data: AnalyticsData | null | undefined = null): Promise<any> {
+    public write(): Promise<any> {
         return new Promise<any>((accept, reject) => {
-            if (!data) {
-                return reject(new Error("Analytics.write() - provided data was null"));
-            }
+            const data: AnalyticsData = this._data;
 
             const url: string = this.origin === "dev" ? "http://localhost:9000/2015-03-31/functions/function/invocations" : "https://oyywgrj9ki.execute-api.ap-southeast-2.amazonaws.com/main/analytics";
 
@@ -81,5 +81,9 @@ export class Analytics {
 
     public startRecordEngagement(): void {
         document.addEventListener("visibilitychange", this._handlePageHide, false);
+    }
+
+    public get data(): AnalyticsData {
+        return this._data;
     }
 }
