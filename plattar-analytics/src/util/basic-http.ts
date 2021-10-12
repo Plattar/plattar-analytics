@@ -31,6 +31,10 @@ export default class BasicHTTP {
                     return reject(e);
                 };
 
+                http.onprogress = (_e) => {
+                    // empty
+                };
+
                 http.send(data ? JSON.stringify(data) : null);
             }
             catch (e) {
