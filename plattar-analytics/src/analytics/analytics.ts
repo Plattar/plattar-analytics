@@ -9,6 +9,11 @@ export class Analytics {
     public origin: "production" | "staging" | "dev" = "production";
     public event: "track" | "pageview" = "track";
 
+    /**
+     * Use HTTP Request to write analytics, otherwise will use beacons
+     */
+    public isBeacon: boolean = false;
+
     constructor(applicationID: string) {
         this._applicationID = applicationID;
         this._data = new AnalyticsData();
@@ -73,9 +78,16 @@ export class Analytics {
                 data: data.data
             };
 
-            BasicHTTP.exec("POST", url, sendData).then((result) => {
-                accept(((result && result.results) ? result.results : {}));
-            }).catch(reject);
+            if (this.isBeacon === false) {
+                BasicHTTP.exec("POST", url, sendData).then((result) => {
+                    accept(((result && result.results) ? result.results : {}));
+                }).catch(reject);
+            }
+            else {
+                BasicHTTP.execBeacon(url, sendData).then((result) => {
+                    accept(((result && result.results) ? result.results : {}));
+                }).catch(reject);
+            }
         });
     }
 
