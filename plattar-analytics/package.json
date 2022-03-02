@@ -6,7 +6,7 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "clean": "rm -rf build dist node_modules",
+    "clean": "rm -rf build dist node_modules package-lock.json",
     "build": "npm run clean && npm install && npm run build-ts && npm run build-es2019 && npm run build-es2015",
     "build-ts": "tsc --noEmitOnError",
     "build-es2019": "rm -rf build/es2019 && mkdir -p build/es2019 && browserify --standalone PlattarAnalytics dist/index.js -o build/es2019/plattar-analytics.js && uglifyjs build/es2019/plattar-analytics.js --output build/es2019/plattar-analytics.min.js",
@@ -37,12 +37,12 @@
   },
   "homepage": "https://www.plattar.com",
   "devDependencies": {
-    "@babel/cli": "^7.15.7",
-    "@babel/core": "^7.15.5",
-    "@babel/preset-env": "^7.15.6",
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.5",
+    "@babel/preset-env": "^7.16.11",
     "browserify": "^17.0.0",
-    "typescript": "^4.4.3",
-    "uglify-es": "^3.3.9"
+    "typescript": "^4.6.2",
+    "uglify-js": "^3.15.2"
   },
   "publishConfig": {
     "access": "public"
