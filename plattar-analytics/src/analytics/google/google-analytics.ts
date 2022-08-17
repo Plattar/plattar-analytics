@@ -8,6 +8,11 @@ export class GoogleAnalytics {
     }
 
     public addUniversalToken(gaToken: string): void {
+        // ensure duplicates not added or processed
+        if (this._tokens.has(gaToken)) {
+            return;
+        }
+
         this._tokens.add(gaToken);
 
         const gInstance: Gtag.Gtag | undefined = <any>gtag;
@@ -26,6 +31,11 @@ export class GoogleAnalytics {
     }
 
     public addToken(gaToken: string): void {
+        // ensure duplicates not added or processed
+        if (this._tokens.has(gaToken)) {
+            return;
+        }
+
         this._tokens.add(gaToken);
 
         const gInstance: Gtag.Gtag | undefined = <any>gtag;
