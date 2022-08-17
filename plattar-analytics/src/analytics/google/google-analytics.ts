@@ -40,20 +40,33 @@ export class GoogleAnalytics {
         }
     }
 
-    public write(data: AnalyticsData): void {
+    public write(event: "pageview" | "track", data: AnalyticsData): void {
         this._tokens.forEach((token: string) => {
             const gInstance: Gtag.Gtag | undefined = <any>gtag;
 
             if (gInstance) {
-                const eventCategory: string = data.get("eventCategory"); // 0
-                const eventAction: string = data.get("eventAction"); // 1
-                const eventLabel: string = data.get("eventLabel"); // 2
+                if (event === "track") {
+                    const eventCategory: string = data.get("eventCategory"); // 0
+                    const eventAction: string = data.get("eventAction"); // 1
+                    const eventLabel: string = data.get("eventLabel"); // 2
 
-                gInstance("event", eventAction, {
-                    "send_to": token,
-                    "event_category": eventCategory,
-                    "event_label": eventLabel
-                });
+                    gInstance("event", eventAction, {
+                        "send_to": token,
+                        "event_category": eventCategory,
+                        "event_label": eventLabel
+                    });
+                }
+
+                if (event === "pageview") {
+                    const eventCategory: string = data.get("eventCategory"); // 0
+                    const eventLabel: string = data.get("eventLabel"); // 2
+
+                    gInstance("event", "pageview", {
+                        "send_to": token,
+                        "event_category": eventCategory,
+                        "event_label": eventLabel
+                    });
+                }
             }
         });
     }

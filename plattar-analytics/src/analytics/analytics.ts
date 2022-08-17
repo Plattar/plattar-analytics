@@ -97,7 +97,7 @@ export class Analytics {
                 }).catch(reject);
             }
 
-            this.googleAnalytics.write(this.data);
+            this.googleAnalytics.write(this.event, this.data);
         });
     }
 
