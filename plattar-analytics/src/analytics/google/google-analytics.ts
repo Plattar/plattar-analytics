@@ -41,6 +41,10 @@ export class GoogleAnalytics {
     }
 
     public write(event: "pageview" | "track", data: AnalyticsData): void {
+        if (this._tokens.size <= 0) {
+            return;
+        }
+
         this._tokens.forEach((token: string) => {
             const gInstance: Gtag.Gtag | undefined = <any>gtag;
 
