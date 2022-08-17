@@ -17,6 +17,10 @@ export class AnalyticsData {
         this._map.set(key, value);
     }
 
+    public get(key: string): any {
+        return this._map.get(key);
+    }
+
     public get data(): any {
         return Object.fromEntries(this._map);
     }

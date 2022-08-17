@@ -1,10 +1,13 @@
 import BasicHTTP from "../util/basic-http";
 import { AnalyticsData } from "./analytics-data";
+import { GoogleAnalytics } from "./google/google-analytics";
 
 export class Analytics {
     private readonly _applicationID: string;
     private readonly _handlePageHide: () => void;
     private readonly _data: AnalyticsData;
+    private readonly _ga: GoogleAnalytics;
+
     private _pageTime: Date | null = null;
     public origin: "production" | "staging" | "dev" = "production";
     public event: "track" | "pageview" = "track";
@@ -17,6 +20,7 @@ export class Analytics {
     constructor(applicationID: string) {
         this._applicationID = applicationID;
         this._data = new AnalyticsData();
+        this._ga = new GoogleAnalytics();
 
         this._handlePageHide = () => {
             if (document.visibilityState === "hidden") {
@@ -39,6 +43,10 @@ export class Analytics {
                 document.removeEventListener("visibilitychange", this._handlePageHide, false);
             }
         };
+    }
+
+    public get googleAnalytics(): GoogleAnalytics {
+        return this._ga;
     }
 
     public query(query: any | null | undefined = null): Promise<any> {
@@ -88,6 +96,8 @@ export class Analytics {
                     accept(((result && result.results) ? result.results : {}));
                 }).catch(reject);
             }
+
+            this.googleAnalytics.write(this.data);
         });
     }
 
