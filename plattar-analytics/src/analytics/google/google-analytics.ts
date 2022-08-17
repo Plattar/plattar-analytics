@@ -72,8 +72,6 @@ export class GoogleAnalytics {
                         "event_category": eventCategory,
                         "event_label": eventLabel
                     });
-
-                    console.log("ga-tracked");
                 }
 
                 if (event === "pageview") {
@@ -85,8 +83,6 @@ export class GoogleAnalytics {
                         "event_category": eventCategory,
                         "event_label": eventLabel
                     });
-
-                    console.log("ga-pageview");
                 }
             }
         });
