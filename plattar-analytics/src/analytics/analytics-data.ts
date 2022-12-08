@@ -25,6 +25,10 @@ export class AnalyticsData {
         return Object.fromEntries(this._map);
     }
 
+    public get map(): any {
+        return this._map;
+    }
+
     private static _GetUserID(): string {
         const key: string = "plattar_user_id";
         let userID: string | null = null;

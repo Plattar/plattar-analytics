@@ -59,30 +59,26 @@ export class GoogleAnalytics {
             const gInstance: Gtag.Gtag | undefined = <any>gtag;
 
             if (gInstance) {
-                gInstance("event", "app_dimension", { "application_id": data.get("applicationId") });
-                gInstance("event", "app_dimension", { "application_title": data.get("applicationTitle") });
+                const eventCategory: string = data.get("eventCategory"); // 0
+                const eventAction: string = data.get("eventAction"); // 1
+                const eventLabel: string = data.get("eventLabel"); // 2
+
+                var fields: any = {
+                    "send_to": token,
+                    "event_category": eventCategory,
+                    "event_label": eventLabel
+                };
+
+                data.map.forEach((key: string) => {
+                    fields[key] = data.get(key);
+                });
 
                 if (event === "track") {
-                    const eventCategory: string = data.get("eventCategory"); // 0
-                    const eventAction: string = data.get("eventAction"); // 1
-                    const eventLabel: string = data.get("eventLabel"); // 2
-
-                    gInstance("event", eventAction, {
-                        "send_to": token,
-                        "event_category": eventCategory,
-                        "event_label": eventLabel
-                    });
+                    gInstance("event", eventAction, fields);
                 }
 
                 if (event === "pageview") {
-                    const eventCategory: string = data.get("eventCategory"); // 0
-                    const eventLabel: string = data.get("eventLabel"); // 2
-
-                    gInstance("event", "pageview", {
-                        "send_to": token,
-                        "event_category": eventCategory,
-                        "event_label": eventLabel
-                    });
+                    gInstance("event", "pageview", fields);
                 }
             }
         });
