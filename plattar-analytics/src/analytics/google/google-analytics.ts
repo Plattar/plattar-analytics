@@ -69,8 +69,8 @@ export class GoogleAnalytics {
                     "event_label": eventLabel
                 };
 
-                data.map.forEach((key: string) => {
-                    fields[key] = data.get(key);
+                data.map.forEach((value: string, key: string) => {
+                    fields[key] = value;
                 });
 
                 if (event === "track") {
