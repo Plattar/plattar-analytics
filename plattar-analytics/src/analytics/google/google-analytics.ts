@@ -22,7 +22,7 @@ export class GoogleAnalytics {
                 "custom_map": {
                     "dimension1": "application_id",
                     "dimension2": "application_title",
-                    'dimension3': 'platform'
+                    "dimension3": "platform"
                 }
             });
 

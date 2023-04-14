@@ -10,7 +10,7 @@ export class AnalyticsData {
         this.push("pageTitle", document.title);
         this.push("pageURL", location.href);
         this.push("referrer", document.referrer);
-        this.push("user_id", AnalyticsData._GetUserID());
+        this.push("user_id", AnalyticsData.getUserID());
     }
 
     public push(key: string, value: any): void {
@@ -29,7 +29,7 @@ export class AnalyticsData {
         return this._map;
     }
 
-    private static _GetUserID(): string {
+    public static getUserID(): string {
         const key: string = "plattar_user_id";
         let userID: string | null = null;
 
