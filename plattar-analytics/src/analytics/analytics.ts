@@ -2,6 +2,27 @@ import BasicHTTP from "../util/basic-http";
 import { AnalyticsData } from "./analytics-data";
 import { GoogleAnalytics } from "./google/google-analytics";
 
+interface AnalyticsReadPayload {
+    readonly data: {
+        readonly attributes: {
+            readonly application_id: string;
+            readonly event: "pageview" | "track";
+            readonly query: any;
+        }
+    }
+}
+
+interface AnalyticsWritePayload {
+    readonly data: {
+        readonly attributes: {
+            readonly application_id: string;
+            readonly event: "pageview" | "track";
+            readonly origin: "dev" | "staging" | "production";
+            readonly fields: any;
+        }
+    }
+}
+
 export class Analytics {
     private readonly _applicationID: string;
     private readonly _handlePageHide: () => void;
@@ -55,13 +76,16 @@ export class Analytics {
                 return reject(new Error("Analytics.query() - provided query was null"));
             }
 
-            const url: string = this.origin === "dev" ? "http://localhost:9000/2015-03-31/functions/function/invocations" : "https://oyywgrj9ki.execute-api.ap-southeast-2.amazonaws.com/main/analytics";
+            const url: string = this.origin === "dev" ? "https://localhost:3008/v3/read" : "https://analytics.plattar.com/v3/read";
 
-            const data = {
-                type: "read",
-                application_id: this._applicationID,
-                event: this.event,
-                data: query
+            const data: AnalyticsReadPayload = {
+                data: {
+                    attributes: {
+                        application_id: this._applicationID,
+                        event: this.event,
+                        query: query
+                    }
+                }
             };
 
             BasicHTTP.exec("POST", url, data).then((result) => {
@@ -74,16 +98,19 @@ export class Analytics {
         return new Promise<any>((accept, reject) => {
             const data: AnalyticsData = this._data;
 
-            const url: string = this.origin === "dev" ? "http://localhost:9000/2015-03-31/functions/function/invocations" : "https://oyywgrj9ki.execute-api.ap-southeast-2.amazonaws.com/main/analytics";
+            const url: string = this.origin === "dev" ? "https://localhost:3008/v3/write" : "https://analytics.plattar.com/v3/write";
 
             data.push("applicationId", this._applicationID);
 
-            const sendData = {
-                type: "write",
-                application_id: this._applicationID,
-                origin: this.origin,
-                event: this.event,
-                data: data.data
+            const sendData: AnalyticsWritePayload = {
+                data: {
+                    attributes: {
+                        application_id: this._applicationID,
+                        event: this.event,
+                        origin: this.origin,
+                        fields: data.data
+                    }
+                }
             };
 
             if (this.isBeacon === false) {
