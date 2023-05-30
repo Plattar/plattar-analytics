@@ -89,7 +89,7 @@ export class Analytics {
             };
 
             BasicHTTP.exec("POST", url, data).then((result) => {
-                accept(((result && result.results) ? result.results : {}));
+                accept(result ? result : {});
             }).catch(reject);
         });
     }
@@ -115,12 +115,12 @@ export class Analytics {
 
             if (this.isBeacon === false) {
                 BasicHTTP.exec("POST", url, sendData).then((result) => {
-                    accept(((result && result.results) ? result.results : {}));
+                    accept(result ? result : {});
                 }).catch(reject);
             }
             else {
                 BasicHTTP.execBeacon(url, sendData).then((result) => {
-                    accept(((result && result.results) ? result.results : {}));
+                    accept(result ? result : {});
                 }).catch(reject);
             }
 
