@@ -15,7 +15,7 @@ export class GoogleAnalytics {
 
         this._tokens.add(gaToken);
 
-        const gInstance: Gtag.Gtag | undefined = <any>gtag;
+        const gInstance: Gtag.Gtag | undefined = typeof gtag !== "undefined" ? gtag : undefined;
 
         if (gInstance) {
             gInstance("config", gaToken, {
@@ -38,7 +38,7 @@ export class GoogleAnalytics {
 
         this._tokens.add(gaToken);
 
-        const gInstance: Gtag.Gtag | undefined = <any>gtag;
+        const gInstance: Gtag.Gtag | undefined = typeof gtag !== "undefined" ? gtag : undefined;
 
         if (gInstance) {
             gInstance("config", gaToken, {
@@ -56,7 +56,7 @@ export class GoogleAnalytics {
         }
 
         this._tokens.forEach((token: string) => {
-            const gInstance: Gtag.Gtag | undefined = <any>gtag;
+            const gInstance: Gtag.Gtag | undefined = typeof gtag !== "undefined" ? gtag : undefined;
 
             if (gInstance) {
                 const eventCategory: string = data.get("eventCategory"); // 0

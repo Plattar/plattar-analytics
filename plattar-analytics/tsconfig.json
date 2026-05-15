@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2025",
     "module": "CommonJS",
     "declaration": true,
-    "moduleResolution": "node",
+    "rootDir": "./src",
     "outDir": "./dist",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "types": ["gtag.js"]
   },
   "include": [
     "src/**/*"

@@ -76,7 +76,16 @@ export class Analytics {
                 return reject(new Error("Analytics.query() - provided query was null"));
             }
 
-            const url: string = this.origin === "dev" ? "https://localhost:3008/v3/read" : "https://analytics.plattar.com/v3/read";
+            let url: string = 'https://analytics.plattar.com/v3/read';
+
+            switch (this.origin) {
+                case 'dev':
+                    url = 'https://localhost:3008/v3/read';
+                    break;
+                case 'staging':
+                    url = 'https://analytics.plattar.space/v3/read';
+                    break;
+            }
 
             const data: AnalyticsReadPayload = {
                 data: {
@@ -98,7 +107,16 @@ export class Analytics {
         return new Promise<any>((accept, reject) => {
             const data: AnalyticsData = this._data;
 
-            const url: string = this.origin === "dev" ? "https://localhost:3008/v3/write" : "https://analytics.plattar.com/v3/write";
+            let url: string = 'https://analytics.plattar.com/v3/write';
+
+            switch (this.origin) {
+                case 'dev':
+                    url = 'https://localhost:3008/v3/write';
+                    break;
+                case 'staging':
+                    url = 'https://analytics.plattar.space/v3/write';
+                    break;
+            }
 
             data.push("applicationId", this._applicationID);
 
